@@ -103,7 +103,7 @@ export default function HomePage() {
         {Array.from({ length: 11 }).map((_, index) => (
           <JobCard
             key={index}
-            id="jobId"
+            id={`jobId-${index}`}
             title="Software Engineer"
             company="Tesla"
             companyLogoUrl="https://github.com/facebook.png"

@@ -1,16 +1,34 @@
-import type { MetaFunction } from "react-router";
+import { Hero } from "~/common/components/hero";
+import { TeamCard } from "../components/team-card";
+import type { Route } from "./+types/teams-page";
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [
     { title: "Teams | wemake" },
-    { name: "description", content: "Find your team" }
+    { name: "description", content: "Find a team looking for a new member." }
   ];
 };
 
 export default function TeamsPage() {
   return (
-    <div className="px-20">
-      <h1 className="text-5xl font-bold">Teams</h1>
+    <div className="space-y-20">
+      <Hero title="Teams" subtitle="Find a team looking for a new member." />
+      <div className="grid grid-cols-4 gap-5">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <TeamCard
+            key={index}
+            id={`team-${index}`}
+            leaderUsername="lynn"
+            leaderAvatarUrl="https://github.com/inthetiger.png"
+            positions={[
+              "React Developer",
+              "Backend Developer",
+              "Product Manager"
+            ]}
+            projectDescription="a new social media platform"
+          />
+        ))}
+      </div>
     </div>
   );
 }

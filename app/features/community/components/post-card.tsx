@@ -1,4 +1,4 @@
-import { DotIcon } from "lucide-react";
+import { ChevronUpIcon, DotIcon } from "lucide-react";
 import { Link } from "react-router";
 import {
   Avatar,
@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle
 } from "~/common/components/ui/card";
+import { cn } from "~/lib/utils";
 
 interface PostCardProps {
   id: string;
@@ -20,6 +21,8 @@ interface PostCardProps {
   authorAvatarUrl: string;
   category: string;
   createdAt: string;
+  expanded?: boolean;
+  votesCount?: number;
 }
 
 export function PostCard({
@@ -28,11 +31,18 @@ export function PostCard({
   author,
   authorAvatarUrl,
   category,
-  createdAt
+  createdAt,
+  expanded = false,
+  votesCount = 0
 }: PostCardProps) {
   return (
-    <Link to={`/community/${id}`}>
-      <Card className="bg-transparent transition-colors hover:bg-card/50">
+    <Link to={`/community/${id}`} className="block">
+      <Card
+        className={cn(
+          "bg-transparent transition-colors hover:bg-card/50",
+          expanded ? "flex flex-row items-center justify-between" : ""
+        )}
+      >
         <CardHeader className="flex flex-row items-center gap-2">
           <Avatar className="size-14">
             <AvatarFallback>{author[0]}</AvatarFallback>
@@ -48,9 +58,19 @@ export function PostCard({
             </div>
           </div>
         </CardHeader>
-        <CardFooter className="flex justify-end">
-          <Button variant="link">Reply &rarr;</Button>
-        </CardFooter>
+        {!expanded && (
+          <CardFooter className="flex justify-end">
+            <Button variant="link">Reply &rarr;</Button>
+          </CardFooter>
+        )}
+        {expanded && (
+          <CardFooter className="flex justify-end pb-0">
+            <Button variant="outline" className="flex h-14 flex-col">
+              <ChevronUpIcon className="size-4 shrink-0" />
+              <span>{votesCount}</span>
+            </Button>
+          </CardFooter>
+        )}
       </Card>
     </Link>
   );
